@@ -22,6 +22,9 @@ import {
 import { Type } from "class-transformer";
 import { Order } from "../../order/base/Order";
 import { Review } from "../../review/base/Review";
+import { IsJSONValue } from "../../validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { JsonValue } from "type-fest";
 
 @ObjectType()
 class User {
@@ -101,6 +104,13 @@ class User {
   @Type(() => Review)
   @IsOptional()
   reviews?: Array<Review>;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsJSONValue()
+  @Field(() => GraphQLJSON)
+  roles!: JsonValue;
 
   @ApiProperty({
     required: true,
