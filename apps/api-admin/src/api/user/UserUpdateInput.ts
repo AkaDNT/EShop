@@ -1,5 +1,6 @@
 import { OrderUpdateManyWithoutUsersInput } from "./OrderUpdateManyWithoutUsersInput";
 import { ReviewUpdateManyWithoutUsersInput } from "./ReviewUpdateManyWithoutUsersInput";
+import { InputJsonValue } from "../../types";
 
 export type UserUpdateInput = {
   email?: string | null;
@@ -9,5 +10,6 @@ export type UserUpdateInput = {
   orders?: OrderUpdateManyWithoutUsersInput;
   password?: string;
   reviews?: ReviewUpdateManyWithoutUsersInput;
+  roles?: InputJsonValue;
   username?: string;
 };

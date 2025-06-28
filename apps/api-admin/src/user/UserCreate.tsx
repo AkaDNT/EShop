@@ -13,6 +13,7 @@ import {
 
 import { OrderTitle } from "../order/OrderTitle";
 import { ReviewTitle } from "../review/ReviewTitle";
+import { ROLES_OPTIONS } from "../user/RolesOptions";
 
 export const UserCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -37,6 +38,12 @@ export const UserCreate = (props: CreateProps): React.ReactElement => {
             format={(value: any) => value && value.map((v: any) => v.id)}
           />
         </ReferenceArrayInput>
+        <SelectArrayInput
+          source="roles"
+          choices={ROLES_OPTIONS}
+          optionText="label"
+          optionValue="value"
+        />
         <TextInput label="Username" source="username" />
       </SimpleForm>
     </Create>
