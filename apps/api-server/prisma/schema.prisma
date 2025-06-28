@@ -17,6 +17,7 @@ model User {
   orders    Order[]
   password  String
   reviews   Review[]
+  roles     Json
   updatedAt DateTime @updatedAt
   username  String   @unique
 }
