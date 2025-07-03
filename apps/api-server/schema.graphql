@@ -42,6 +42,11 @@ input CategoryWhereUniqueInput {
   id: String!
 }
 
+input Credentials {
+  password: String!
+  username: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -95,6 +100,10 @@ input JsonFilter {
   not: JSONObject
 }
 
+type MetaQueryPayload {
+  count: Float!
+}
+
 type Mutation {
   createCategory(data: CategoryCreateInput!): Category!
   createOrder(data: OrderCreateInput!): Order!
@@ -106,6 +115,7 @@ type Mutation {
   deleteProduct(where: ProductWhereUniqueInput!): Product!
   deleteReview(where: ReviewWhereUniqueInput!): Review!
   deleteUser(where: UserWhereUniqueInput!): User!
+  login(credentials: Credentials!): UserInfo!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product!
@@ -295,6 +305,11 @@ input ProductWhereUniqueInput {
 }
 
 type Query {
+  _categoriesMeta(where: CategoryWhereInput): MetaQueryPayload!
+  _ordersMeta(where: OrderWhereInput): MetaQueryPayload!
+  _productsMeta(where: ProductWhereInput): MetaQueryPayload!
+  _reviewsMeta(where: ReviewWhereInput): MetaQueryPayload!
+  _usersMeta(where: UserWhereInput): MetaQueryPayload!
   categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
   order(where: OrderWhereUniqueInput!): Order
@@ -304,6 +319,7 @@ type Query {
   review(where: ReviewWhereUniqueInput!): Review
   reviews(orderBy: [ReviewOrderByInput!], skip: Float, take: Float, where: ReviewWhereInput): [Review!]!
   user(where: UserWhereUniqueInput!): User
+  userInfo: UserInfo!
   users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
 }
 
@@ -423,6 +439,7 @@ type User {
   lastName: String
   orders(orderBy: [OrderOrderByInput!], skip: Float, take: Float, where: OrderWhereInput): [Order!]!
   reviews(orderBy: [ReviewOrderByInput!], skip: Float, take: Float, where: ReviewWhereInput): [Review!]!
+  roles: JSON!
   updatedAt: DateTime!
   username: String!
 }
@@ -435,6 +452,14 @@ input UserCreateInput {
   orders: OrderCreateNestedManyWithoutUsersInput
   password: String!
   reviews: ReviewCreateNestedManyWithoutUsersInput
+  roles: JSON!
+  username: String!
+}
+
+type UserInfo {
+  accessToken: String
+  id: String!
+  roles: [String!]!
   username: String!
 }
 
@@ -446,6 +471,7 @@ input UserOrderByInput {
   isAdmin: SortOrder
   lastName: SortOrder
   password: SortOrder
+  roles: SortOrder
   updatedAt: SortOrder
   username: SortOrder
 }
@@ -458,6 +484,7 @@ input UserUpdateInput {
   orders: OrderUpdateManyWithoutUsersInput
   password: String
   reviews: ReviewUpdateManyWithoutUsersInput
+  roles: JSON
   username: String
 }
 

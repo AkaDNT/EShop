@@ -19,12 +19,6 @@
     "turbo": "^2.5.4"
   },
   "dependencies": {
-    "@apollo/server": "^4.12.2",
-    "@nestjs/apollo": "^13.1.0",
-    "@nestjs/graphql": "^13.1.0",
-    "apollo-server-core": "^3.13.0",
-    "apollo-server-express": "^3.13.0",
-    "apollo-server-fastify": "^3.13.0",
     "graphql": "^16.11.0"
   }
 }
