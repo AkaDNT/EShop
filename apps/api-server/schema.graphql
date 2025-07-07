@@ -116,6 +116,7 @@ type Mutation {
   deleteReview(where: ReviewWhereUniqueInput!): Review!
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
+  signup(credentials: Credentials!): UserInfo!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category!
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product!
@@ -312,6 +313,7 @@ type Query {
   _usersMeta(where: UserWhereInput): MetaQueryPayload!
   categories(orderBy: [CategoryOrderByInput!], skip: Float, take: Float, where: CategoryWhereInput): [Category!]!
   category(where: CategoryWhereUniqueInput!): Category
+  me: User!
   order(where: OrderWhereUniqueInput!): Order
   orders(orderBy: [OrderOrderByInput!], skip: Float, take: Float, where: OrderWhereInput): [Order!]!
   product(where: ProductWhereUniqueInput!): Product
