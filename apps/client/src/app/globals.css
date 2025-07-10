@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --color-primary: #ff9900;
+  --color-amazon-primary: #ff9900;
+  --color-amazon-dark: #141b24;
+  --color-amazon-background: #eef3f9;
+  --color-amazon-secondary: #ffb700;
+  --color-amazon-blue: #00a8e1;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @theme inline {
