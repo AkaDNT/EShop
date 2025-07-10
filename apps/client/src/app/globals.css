@@ -34,3 +34,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.link-hover {
+  cursor: pointer;
+  width: max-content;
+}
+
+.link-hover:hover {
+  color: #ff9900;
+}

@@ -6,7 +6,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex min-h-[100vh]">
       <Side></Side>
       {children}
     </div>
