@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BiSolidCategory } from "react-icons/bi";
-import { FaHome, FaShoppingCart } from "react-icons/fa";
+import { FaHome, FaShoppingCart, FaBars } from "react-icons/fa";
 import { BsFillBarChartFill, BsPhoneFill } from "react-icons/bs";
 import { MdAddBox } from "react-icons/md";
 import { HiCollection } from "react-icons/hi";
@@ -20,11 +20,21 @@ import {
 const Side = () => {
   const router = useRouter();
   const pathname = usePathname();
-  // State to keep track of the currently selected item
   const [selectedItem, setSelectedItem] = useState("/admin/dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   useEffect(() => {
     setSelectedItem(pathname);
   }, [pathname]);
+
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  const handleItemClick = (link: string) => {
+    setSelectedItem(link);
+    setIsSidebarOpen(false);
+    router.push(link);
+  };
+
   const menuItems = [
     { label: "Dashboard", icon: <FaHome />, link: "/admin/dashboard" },
     {
@@ -72,61 +82,75 @@ const Side = () => {
     { label: "Orders", icon: <FaShoppingCart />, link: "/admin/orders" },
   ];
 
-  const handleItemClick = (link: string) => {
-    // Update the selected item when a menu item is clicked
-    setSelectedItem(link);
-    router.push(link);
-  };
-
   return (
-    <div className="min-h-[100vh]  overflow-hidden">
-      <Sidebar
-        className="h-full overflow-hidden"
-        rootStyles={{
-          [`.${sidebarClasses.container}`]: {
-            backgroundColor: "#141B24",
-            "&:hover": {
-              backgroundColor: "#141B24",
-            },
-          },
-        }}
-      >
-        <Menu
-          className="h-[100vh] max-h-[100vh] text-white overflow-hidden"
-          menuItemStyles={{
-            button: ({ level, active, disabled }) => {
-              const backgroundColor = level === 0 ? "#141B24" : "#222e3d";
+    <>
+      {/* Mobile Top Bar */}
+      <div className="md:hidden p-4 flex items-center justify-between bg-[color:var(--color-amazon-dark)] text-white">
+        <button onClick={toggleSidebar} className="text-2xl">
+          <FaBars />
+        </button>
+      </div>
 
-              return {
-                backgroundColor: active ? "#ff9900" : backgroundColor,
-                "&:hover": {
-                  backgroundColor: active ? "#212c3a" : "#2c3a4d",
-                },
-              };
+      {/* Overlay: Only shows on mobile when sidebar is open */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black bg-opacity-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed top-0 left-0 z-50 h-full transition-transform duration-300
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0 md:static md:block
+          bg-[color:var(--color-amazon-dark)]
+        `}
+      >
+        <Sidebar
+          className="h-full"
+          rootStyles={{
+            [`.${sidebarClasses.container}`]: {
+              backgroundColor: "#141B24",
+              height: "100vh",
             },
           }}
         >
-          <div className="flex items-center justify-center my-10">
-            <Image
-              src="/logo.png"
-              alt="logo"
-              height={150}
-              width={150}
-              className="cursor-pointer"
-              onClick={() => router.push("/admin/dashboard")}
-            />
-          </div>
+          <Menu
+            className="text-white"
+            menuItemStyles={{
+              button: ({ level, active }) => {
+                const bg = level === 0 ? "#141B24" : "#222e3d";
+                return {
+                  backgroundColor: active ? "#ff9900" : bg,
+                  "&:hover": {
+                    backgroundColor: active ? "#212c3a" : "#2c3a4d",
+                  },
+                };
+              },
+            }}
+          >
+            <div className="flex items-center justify-center my-6">
+              <Image
+                src="/logo.png"
+                alt="logo"
+                height={120}
+                width={120}
+                className="cursor-pointer"
+                onClick={() => router.push("/admin/dashboard")}
+              />
+            </div>
 
-          {menuItems.map((item, index) => (
-            <React.Fragment key={index}>
-              {item.subMenuItems ? (
-                <SubMenu label={item.label} icon={item.icon}>
+            {menuItems.map((item, index) =>
+              item.subMenuItems ? (
+                <SubMenu key={index} label={item.label} icon={item.icon}>
                   {item.subMenuItems.map((subItem, subIndex) => (
                     <MenuItem
                       key={subIndex}
-                      onClick={() => handleItemClick(subItem.link)}
                       icon={subItem.icon}
                       active={selectedItem === subItem.link}
+                      onClick={() => handleItemClick(subItem.link)}
                     >
                       {subItem.label}
                     </MenuItem>
@@ -134,25 +158,27 @@ const Side = () => {
                 </SubMenu>
               ) : (
                 <MenuItem
-                  onClick={() => handleItemClick(item.link)}
+                  key={index}
                   icon={item.icon}
                   active={selectedItem === item.link}
+                  onClick={() => handleItemClick(item.link)}
                 >
                   {item.label}
                 </MenuItem>
-              )}
-            </React.Fragment>
-          ))}
-          <MenuItem
-            onClick={() => handleItemClick("/admin/logout")}
-            icon={<LuLogOut />}
-            active={selectedItem === "/admin/logout"}
-          >
-            Logout
-          </MenuItem>
-        </Menu>
-      </Sidebar>
-    </div>
+              )
+            )}
+
+            <MenuItem
+              onClick={() => handleItemClick("/admin/logout")}
+              icon={<LuLogOut />}
+              active={selectedItem === "/admin/logout"}
+            >
+              Logout
+            </MenuItem>
+          </Menu>
+        </Sidebar>
+      </div>
+    </>
   );
 };
 
