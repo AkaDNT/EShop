@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ToastLayout from "@/components/toast-layout";
+import { Providers } from "./provider";
 
 export const metadata: Metadata = {
   title: "EShop",
@@ -13,7 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <Providers>
+          {children}
+          <ToastLayout></ToastLayout>
+        </Providers>
+      </body>
     </html>
   );
 }
