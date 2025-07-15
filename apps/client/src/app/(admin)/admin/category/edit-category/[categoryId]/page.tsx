@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -8,14 +8,31 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { addCategory } from "@/lib/api/category";
+import { editCategory, getCategory } from "@/lib/api/category";
 
-export default function AddCategory() {
+export default function EditCategory({
+  params,
+}: {
+  params: Promise<{ categoryId: string }>;
+}) {
+  const { categoryId } = use(params);
+
   const router = useRouter();
-  const [category, setCategory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getCategory(categoryId);
+      if (result) {
+        setCategoryName(result.name);
+      }
+    };
+
+    fetchData();
+  }, [categoryId]);
 
   const handleClick = async () => {
-    const result = await addCategory(category);
+    const result = await editCategory(categoryId, categoryName);
     if (result) {
       router.push("/admin/category/all-category");
     }
@@ -32,17 +49,18 @@ export default function AddCategory() {
         "
       >
         <CardHeader className="text-2xl sm:text-4xl font-semibold pb-4">
-          Add New Category
+          Edit Category
         </CardHeader>
+
+        <p>Category id: {categoryId}</p>
 
         <CardBody className="flex flex-col gap-6">
           <Input
             type="text"
             label="Category Name"
-            placeholder="Enter category name..."
             variant="bordered"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
             className="w-full px-4 py-10"
             classNames={{
               inputWrapper: "bg-white/5 border-white/20 rounded-xl text-white",
@@ -64,7 +82,7 @@ export default function AddCategory() {
             "
             onClick={handleClick}
           >
-            Add Category
+            Update Category
           </button>
         </CardBody>
 
