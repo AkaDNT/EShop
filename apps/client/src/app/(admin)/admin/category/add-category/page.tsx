@@ -1,12 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Input,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Input } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { addCategory } from "@/lib/api/category";
 
@@ -42,13 +36,9 @@ export default function AddCategory() {
             placeholder="Enter category name..."
             variant="bordered"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-10"
-            classNames={{
-              inputWrapper: "bg-white/5 border-white/20 rounded-xl text-white",
-              label: "text-white/80 pl-[5px]",
-              input: "pl-[5px]",
-            }}
+            onChange={(e: {
+              target: { value: React.SetStateAction<string> };
+            }) => setCategory(e.target.value)}
           />
 
           <button

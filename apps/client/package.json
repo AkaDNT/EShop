@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/card": "^2.2.21",
-    "@heroui/react": "^2.7.11",
+    "@heroui/card": "^2.2.22",
+    "@heroui/react": "^2.8.0",
+    "@heroui/system": "^2.4.19",
+    "@heroui/theme": "^2.4.18",
     "axios": "^1.10.0",
-    "framer-motion": "^12.23.3",
+    "framer-motion": "^12.23.5",
     "next": "15.3.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

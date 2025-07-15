@@ -124,7 +124,7 @@ export default function CategoryPage() {
         case "actions":
           return (
             <div className="flex items-center gap-4 text-lg">
-              <Tooltip content="Edit Category" placement="left">
+              <Tooltip color="primary" content="Edit Category" placement="left">
                 <button
                   className="text-primary hover:opacity-75 transition"
                   onClick={() => handleEdit(category.id)}
@@ -253,6 +253,8 @@ export default function CategoryPage() {
           topContentPlacement="outside"
           bottomContent={bottomContent}
           bottomContentPlacement="outside"
+          sortDescriptor={sortDescriptor as any}
+          onSortChange={setSortDescriptor as any}
           classNames={{
             wrapper:
               "rounded-xl shadow-lg ring-1 ring-white/10 bg-white/5 backdrop-blur-md overflow-x-auto",
@@ -285,7 +287,14 @@ export default function CategoryPage() {
         </Table>
       </div>
 
-      <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
+      <Modal
+        backdrop="blur"
+        isOpen={isOpen}
+        onClose={onClose}
+        classNames={{
+          base: "flex items-center justify-center", // 👈 đảm bảo modal ở giữa viewport
+        }}
+      >
         <ModalContent>
           {() => (
             <>
